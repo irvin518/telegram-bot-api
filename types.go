@@ -1366,6 +1366,14 @@ type InlineKeyboardMarkup struct {
 	InlineKeyboard [][]InlineKeyboardButton `json:"inline_keyboard"`
 }
 
+type SwitchInlineQueryChosenChat struct {
+	Query             string `json:"query,omitempty"`
+	AllowUserChart    bool   `json:"allow_user_chats,omitempty"`
+	AllowBotChats     bool   `json:"allow_bot_chats,omitempty"`
+	AllowGroupChats   bool   `json:"allow_group_chats,omitempty"`
+	AllowChannelChats bool   `json:"allow_channel_chats,omitempty"`
+}
+
 // InlineKeyboardButton represents one button of an inline keyboard. You must
 // use exactly one of the optional fields.
 //
@@ -1419,6 +1427,9 @@ type InlineKeyboardButton struct {
 	// CallbackGame description of the game that will be launched when the user presses the button.
 	//
 	// optional
+
+	SwitchInlineQueryChosenChat *SwitchInlineQueryChosenChat `json:"switch_inline_query_chosen_chat,omitempty"`
+
 	CallbackGame *CallbackGame `json:"callback_game,omitempty"`
 	// Pay specify True, to send a Pay button.
 	//
