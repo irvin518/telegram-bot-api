@@ -31,6 +31,32 @@ func (e Error) Error() string {
 	return e.Message
 }
 
+type ChatBoostSource struct {
+	Source            string `json:"source"`
+	User              *User  `json:"user,omitempty"`
+	GiveawayMessageId int64  `json:"giveaway_message_id,omitempty"`
+	IsUnclaimed       bool   `json:"is_unclaimed,omitempty"`
+}
+
+type ChatBoost struct {
+	BoostId       string           `json:"boost_id"`
+	AddDate       int64            `json:"add_date"`
+	ExprationDate int64            `json:"expiration_date"`
+	Source        *ChatBoostSource `json:"source"`
+}
+
+type ChatBoostUpdated struct {
+	Chat  *Chat      `json:"chart"`
+	Boost *ChatBoost `json:"boost"`
+}
+
+type ChatBoostRemoved struct {
+	Chat       *Chat            `json:"chart"`
+	BoostId    string           `json:"boost_id"`
+	RemoveDate int64            `json:"remove_date"`
+	Source     *ChatBoostSource `json:"source"`
+}
+
 // Update is an update response, from GetUpdates.
 type Update struct {
 	// UpdateID is the update's unique identifier.
@@ -114,6 +140,9 @@ type Update struct {
 	//
 	// optional
 	ChatJoinRequest *ChatJoinRequest `json:"chat_join_request,omitempty"`
+
+	ChatBoost        *ChatBoostUpdated `json:"chat_boost,omitempty"`
+	RemovedChatBoost *ChatBoostUpdated `json:"removed_chat_boost,omitempty"`
 }
 
 // SentFrom returns the user who sent an update. Can be nil, if Telegram did not provide information
