@@ -442,6 +442,15 @@ func (bot *BotAPI) GetUpdatesChan(config UpdateConfig) UpdatesChannel {
 			updates, err := bot.GetUpdates(config)
 			if err != nil {
 				log.Println(err)
+				if e, ok := err.(*Error); ok {
+					if e.Code == 409 {
+						_, err = bot.MakeRequest("setWebHook", make(Params))
+						if err != nil {
+							log.Printf("setWebHook, error %s", err)
+						}
+					}
+				}
+
 				log.Println("Failed to get updates, retrying in 3 seconds...")
 				time.Sleep(time.Second * 3)
 
