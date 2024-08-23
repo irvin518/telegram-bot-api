@@ -1890,6 +1890,40 @@ func (config PreCheckoutConfig) params() (Params, error) {
 	return params, nil
 }
 
+type GetStarTranscationsConfig struct {
+	Offset int
+	Limit  int
+}
+
+func (config GetStarTranscationsConfig) method() string {
+	return "getStarTransactions"
+}
+
+func (config GetStarTranscationsConfig) params() (Params, error) {
+	params := make(Params)
+	params.AddNonZero("offset", config.Offset)
+	params.AddNonZero("limit", config.Limit)
+
+	return params, nil
+}
+
+type RefundStarPaymentConfig struct {
+	UserId                  int64  // required
+	TelegramPaymentChargeId string // required
+}
+
+func (config RefundStarPaymentConfig) method() string {
+	return "refundStarPayment"
+}
+
+func (config RefundStarPaymentConfig) params() (Params, error) {
+	params := make(Params)
+
+	params.AddFirstValid("user_id", config.UserId)
+	params["telegram_payment_charge_id"] = config.TelegramPaymentChargeId
+	return params, nil
+}
+
 // DeleteMessageConfig contains information of a message in a chat to delete.
 type DeleteMessageConfig struct {
 	ChannelUsername string
